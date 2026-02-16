@@ -13,7 +13,7 @@ SRC_DIR = THIS_FILE.parents[2]  # .../src
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from pipeline._contracts.acesso_basico_contract import AcessoBasicoContract as abc
+from pipeline.bronze._contracts.acesso_basico_contract import AcessoBasicoContract as abc
 from modules.datafilehandler import DataFileReader
 from modules.database import DatabaseHandler
 from modules.util import converter_tempo
@@ -55,7 +55,7 @@ class AcessoBasico:
         # Pastas/arquivos
         #self.remove_source_file = os.getenv("REMOVE_SOURCE_FILE", "false").lower() == "true"
         self.files_dir = (SRC_DIR / "pipeline" / "landing" / "in")
-        self.schema_path = (SRC_DIR / "pipeline" / "landing" / "schemas" / "csv" / "acesso_basico.json")
+        self.schema_path = (SRC_DIR / "pipeline" / "bronze" / "schemas" / "csv" / "acesso_basico.json")
 
 
     def extract(self) -> pd.DataFrame:

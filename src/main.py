@@ -18,7 +18,7 @@ from modules.datafilehandler import DataFileReader
 from modules.database import DatabaseHandler
 from modules.util import converter_tempo
 from modules.minio import MinIo
-from pipeline.landing.acesso_basico import AcessoBasico
+from pipeline.bronze.acesso_basico import AcessoBasico
 
 # Runner do dbt
 from modules.dbt_runner import (

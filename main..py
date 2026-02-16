@@ -19,7 +19,7 @@ from modules.datafilehandler import DataFileReader
 from modules.database import DatabaseHandler
 from modules.util import converter_tempo
 from modules.minio import MinIo
-from pipeline.landing.raw_acesso_basico import StgAcessoBasico
+from pipeline.landing.acesso_basico import StgAcessoBasico
 
 # Runner do dbt
 from modules.dbt_runner import (
@@ -37,8 +37,7 @@ PATH_LOGS = os.getenv("PATH_LOGS")
 LOG_FILE = os.getenv("LOG_FILE")
 PROJECT = os.getenv("PROJECT")
 SCHEMA = os.getenv("SCHEMA")
-TABLE_LOG_FULL_NAME = os.getenv("TB_LOG_FULL_NAME", 'TB_LOG_EXECUCAO')
-TABLE_LOG_CONTROLE = os.getenv("TABLE_LOG_CONTROLE",'DB_LOG_CARGA.dbo.TB_LOGS_CARGA')
+TABLE_LOG_CONTROLE = os.getenv("DATABASE_TABLE_LOG",'TB_LOGS_CARGA')
 DOWNLOAD_DIR = os.getenv("APP_DOWNLOAD_DIR")
 BUCKET= os.getenv("S3_BUCKET")
 PATH_LOGS_DBT = os.getenv("PATH_LOGS_DBT")

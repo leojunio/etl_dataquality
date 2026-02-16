@@ -46,13 +46,14 @@ class StgAcessoBasico:
             # não é usada diretamente aqui, mas já validamos
             self.logger.warning("DATABASE_NAME_TGT não definida. Verifique o .env se for necessária.")
 
+        self.package_name = os.getenv("PROJECT", "NAO_INFORMADO")
         self.task_name = f"IMPORT_{self.table_name_tgt}"
 
         # Pastas/arquivos
         self.remove_source_file = os.getenv("REMOVE_SOURCE_FILE", "false").lower() == "true"
-        self.files_dir = SRC_DIR / "pipeline/landing/in" / "csv"
+        self.files_dir = (SRC_DIR / "pipeline" / "landing" / "in")
+        self.schema_path = (SRC_DIR / "pipeline" / "landing" / "schemas" / "csv" / "acesso_basico.json")
 
-        self.schema_path = SRC_DIR / "pipeline/landing/schemas" / "csv" / "acesso_saneamento_basico.json"
 
     def extract(self) -> pd.DataFrame:
         # Carrega parâmetros do schema (aproveitamos delimiter/encoding)
@@ -60,7 +61,7 @@ class StgAcessoBasico:
 
         # Padrões de arquivo 
         patterns = [
-            "*saneamento*basico*"
+            "*acesso*basico*"
             #"*saude*bucal*",
         ]
 
@@ -120,6 +121,8 @@ class StgAcessoBasico:
         self.logger.info(f"Load OK | {len(df)} linhas em {self.table_schema_tgt}.{self.table_name_tgt}")
 
     def load_summary_log(self, df: pd.DataFrame) -> pd.DataFrame:
+
+  
         out = (
             df.groupby("NM_SOURCE_FILE").size().reset_index(name="QT_REGISTROS")
         )
@@ -139,7 +142,7 @@ class StgAcessoBasico:
             )
 
         return out
-
+    
     def run(self) -> pd.DataFrame:
         start = datetime.now(self.timezone)
         self.logger.info(f"Iniciando {self.task_name}")

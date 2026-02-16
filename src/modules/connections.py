@@ -27,11 +27,11 @@ class Connections:
 
     def create_mssql_config(self):
         return {
-            'username': os.getenv('DATABASE_TGT_USERNAME'),
-            'password': os.getenv('DATABASE_TGT_PASSWORD'),
-            'server': os.getenv('DATABASE_TGT_HOST'),
-            'database': os.getenv('DATABASE_TGT_DBNAME'),
-            'port': os.getenv('DATABASE_TGT_PORT'),
+            'server': os.getenv('DATABASE_HOST_TGT'),
+            'database': os.getenv('DATABASE_NAME_TGT'),
+            'username': os.getenv('DATABASE_USER_NAME_TGT'),
+            'password': os.getenv('DATABASE_USER_PASSWORD_TGT'),            
+            'port': os.getenv('DATABASE_PORT_TGT'),
             'sgbd': 'MSSQL'
         }
 

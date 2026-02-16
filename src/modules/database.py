@@ -20,13 +20,13 @@ class DatabaseHandler:
         self.projeto = os.getenv("PROJECT")    
         self.database = os.getenv("DATABASE_TGT_HOST")
         self.batch_import_size = int(os.getenv("BATCH_IMPORT_SIZE",1000))
-        self.schema = 'stg'
+        self.schema = os.getenv("DATABASE_SCHEMA_TGT") 
         self.time = datetime.now().strftime("%Y-%m-%d %H-%M-%S") 
-        self.table_log_full_name = os.getenv("TABLE_LOG_CONTROLE", 'DB_LOG_CARGA.dbo.TB_LOGS_CARGA')
+        self.table_log_full_name = os.getenv("TABLE_LOG_CONTROLE", 'log.TB_LOGS_CARGA')
         self.mssql_engine = self.conn.connect_to_database('MSSQL')
         self.timezone = pytz.timezone('America/Sao_Paulo')
         self.current_time = datetime.now(self.timezone)     
-        self.sql_path = os.path.join(CWD, 'sql', 'oracle_tables.sql')           
+        #self.sql_path = os.path.join(CWD, 'sql', 'oracle_tables.sql')           
 
     def _count_table(self, table_name, schema=None):
         connection = self.conn.connect_to_database()

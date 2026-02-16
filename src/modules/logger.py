@@ -9,7 +9,7 @@ from .connections import Connections
 # Carregar as variáveis do arquivo .env
 load_dotenv()
 PATH_LOGS = os.getenv("PATH_LOGS")
-LOG_FILE = os.getenv("LOG_FILE", 'doencas-ppi.log')
+LOG_FILE = os.getenv("LOG_FILE_NAME", 'app.log')
 RETENTION_TIME_LOGS = int(os.getenv("RETENTION_TIME_LOGS", 30))
 TB_LOG_FULL_NAME = os.getenv("TB_LOG_FULL_NAME", 'TB_LOG_EXECUCAO')
 SCHEMA = os.getenv("SCHEMA", 'STG')

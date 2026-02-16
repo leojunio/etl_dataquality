@@ -7,7 +7,7 @@ import numpy as np
 import pandera as pa
 import pytest
 
-from pipeline._contracts.acesso_basico_contract import AcessoBasicoContract as abc
+from bronze._contracts.acesso_basico_contract import AcessoBasicoContract as abc
 
 def test_acesso_basico_valid():
     df_test = pd.DataFrame({

@@ -1,0 +1,18 @@
+{
+  "encoding": "utf-8",
+  "delimiter": ";",
+  "fields": [
+    { "name": "LOCALIDADE",        "type": "string" },
+    { "name": "COD_IBGE",          "type": "string" },
+    { "name": "TEMA",              "type": "string" },
+    { "name": "INDICADOR",         "type": "string" },
+    { "name": "ANO",               "type": "string" },
+    { "name": "MEDIA_RELATIVA",    "type": "string" },
+    { "name": "MEDIA_ABSOLUTA",    "type": "string" },
+    { "name": "DESAGREGADOR",      "type": "string" },
+    { "name": "CLASSIFICACAO",     "type": "string" },
+    { "name": "VALOR_RELATIVO",    "type": "string" },
+    { "name": "VALOR_ABSOLUTO",    "type": "string" },
+    { "name": "FONTE",             "type": "string" }
+  ]
+}

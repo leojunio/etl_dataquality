@@ -1,0 +1,40 @@
+services:
+  myapp:
+    container_name: ${PROJECT}
+    image: ${PROJECT}:${TAG}
+    env_file:
+      - .env
+    environment:
+      - DATABASE_SRC_HOST=${DATABASE_SRC_HOST}
+      - DATABASE_SRC_PORT=${DATABASE_SRC_PORT}
+      - DATABASE_SRC_DBNAME=${DATABASE_SRC_DBNAME}
+      - DATABASE_SRC_USERNAME=${DATABASE_SRC_USERNAME}
+      - DATABASE_SRC_PASSWORD=${DATABASE_SRC_PASSWORD}
+      - DATABASE_TGT_HOST=${DATABASE_TGT_HOST}
+      - DATABASE_TGT_PORT=${DATABASE_TGT_PORT}
+      - DATABASE_TGT_DBNAME=${DATABASE_TGT_DBNAME}
+      - DATABASE_TGT_USERNAME=${DATABASE_TGT_USERNAME}
+      - DATABASE_TGT_PASSWORD=${DATABASE_TGT_PASSWORD}
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - type: bind
+        source: ${LOGS_PATH}
+        target: /app/logs
+
+    command: python main.py
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' # 500 milicores ≈ 0.5 CPU
+          memory: 1024M # limite máximo de 1 GB
+        reservations:
+          cpus: '0.25' # 250 milicores ≈ 0.25 CPU
+          memory: 256M # mínimo garantido de 256 MB
+
+volumes:
+  logs:

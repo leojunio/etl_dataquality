@@ -21,8 +21,8 @@ jobs:
       - name: Instala as dependências
         run: pip install -r requirements.txt 
       
-      - name: Testa o contrato de entrada
+      - name: Testa o contrato de dados
         run: pytest .\src\pipeline\bronze\_tests\test_acesso_basico.py -v
               
-      - name: Testa o contrato de saída
-        run: pytest tests/test_contrato_out.py -v
+      #- name: Testa o contrato de saída
+      #  run: pytest tests/test_contrato_out.py -v

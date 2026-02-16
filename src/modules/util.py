@@ -3,6 +3,7 @@ import chardet
 import json
 import os
 import datetime
+import pandas as pd
 from pathlib import Path
 CWD=Path(os.path.realpath(__file__)).parent.parent
 

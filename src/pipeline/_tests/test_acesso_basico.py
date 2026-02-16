@@ -7,10 +7,10 @@ import numpy as np
 import pandera as pa
 import pytest
 
-from pipeline._contracts.acesso_basico import AcessoBasico
+from pipeline._contracts.acesso_basico_contract import AcessoBasicoContract as abc
 
 def test_acesso_basico_valid():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -23,13 +23,11 @@ def test_acesso_basico_valid():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
-    validated_df = AcessoBasico.validate(df)
-    assert isinstance(validated_df, pd.DataFrame)
+   })
+    abc.validate(df_test)
 
 def test_acesso_basico_invalid():
-  data = {
+    df_test = pd.DataFrame({
       "LOCALIDADE": ["Localidade A", "Localidade B"],
       "COD_IBGE": [12345, 67890],
       "TEMA": ["Tema A", "Tema B"],
@@ -42,13 +40,12 @@ def test_acesso_basico_invalid():
       "VALOR_RELATIVO": [0.3, 0.4],
       "VALOR_ABSOLUTO": [-150, -60],
       "FONTE": ["Fonte A", "Fonte B"]
-  }
-  df = pd.DataFrame(data)
-  with pytest.raises(pa.errors.SchemaError):
-      AcessoBasico.validate(df)
+    })
+    with pytest.raises(pa.errors.SchemaError):
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_localidade():
-    data = {
+    df_test = pd.DataFrame({
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
         "INDICADOR": ["Indicador A", "Indicador B"],
@@ -60,13 +57,13 @@ def test_acesso_basico_missing_column_localidade():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
+
 
 def test_acesso_basico_missing_column_cod_ibge():
-    data = {
+    df_test = pd.DataFrame({
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
         "INDICADOR": ["Indicador A", "Indicador B"],
@@ -78,13 +75,12 @@ def test_acesso_basico_missing_column_cod_ibge():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_tema():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "INDICADOR": ["Indicador A", "Indicador B"],
@@ -96,13 +92,12 @@ def test_acesso_basico_missing_column_tema():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_indicador():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -114,13 +109,12 @@ def test_acesso_basico_missing_column_indicador():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_ano():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -132,13 +126,12 @@ def test_acesso_basico_missing_column_ano():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_media_relativa():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -150,13 +143,12 @@ def test_acesso_basico_missing_column_media_relativa():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_media_absoluta():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -168,13 +160,12 @@ def test_acesso_basico_missing_column_media_absoluta():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)    
+        abc.validate(df_test)  
 
 def test_acesso_basico_missing_column_desagregador():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -186,13 +177,12 @@ def test_acesso_basico_missing_column_desagregador():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_classificacao():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -204,13 +194,12 @@ def test_acesso_basico_missing_column_classificacao():
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_valor_relativo():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -222,13 +211,12 @@ def test_acesso_basico_missing_column_valor_relativo():
         "CLASSIFICACAO": ["Cor ou Raça da criança", "Renda domiciliar per capita - I"],
         "VALOR_ABSOLUTO": [50, 60],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_valor_absoluto():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -240,13 +228,12 @@ def test_acesso_basico_missing_column_valor_absoluto():
         "CLASSIFICACAO": ["Cor ou Raça da criança", "Renda domiciliar per capita - I"],
         "VALOR_RELATIVO": [0.3, 0.4],
         "FONTE": ["Fonte A", "Fonte B"]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)
 
 def test_acesso_basico_missing_column_fonte():
-    data = {
+    df_test = pd.DataFrame({
         "LOCALIDADE": ["Localidade A", "Localidade B"],
         "COD_IBGE": [12345, 67890],
         "TEMA": ["Tema A", "Tema B"],
@@ -258,7 +245,6 @@ def test_acesso_basico_missing_column_fonte():
         "CLASSIFICACAO": ["Cor ou Raça da criança", "Renda domiciliar per capita - I"],
         "VALOR_RELATIVO": [0.3, 0.4],
         "VALOR_ABSOLUTO": [50, 60]
-    }
-    df = pd.DataFrame(data)
+    })
     with pytest.raises(pa.errors.SchemaError):
-        AcessoBasico.validate(df)
+        abc.validate(df_test)

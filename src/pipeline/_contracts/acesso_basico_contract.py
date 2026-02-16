@@ -1,7 +1,9 @@
 import pandera.pandas as pa
+import pandas as pd
 from pandera.typing import Series
+from typing import Optional
 
-class AcessoBasico(pa.DataFrameModel):
+class AcessoBasicoContract(pa.DataFrameModel):
     LOCALIDADE: Series[str]
     COD_IBGE: Series[int] 
     TEMA: Series[str]  
@@ -14,6 +16,10 @@ class AcessoBasico(pa.DataFrameModel):
     VALOR_RELATIVO: Series[float] = pa.Field(ge=0)
     VALOR_ABSOLUTO: Series[float] = pa.Field(ge=0)
     FONTE: Series[str]
+    NM_SOURCE_FILE: Optional[str]
+    DT_CARGA: Optional[pd.Timestamp]
+    ID_EXECUCAO: Optional[int]
+    TS_CARGA: Optional[pd.Timestamp]
 
     class Config:
         strict = True

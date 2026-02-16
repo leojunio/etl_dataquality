@@ -4,6 +4,7 @@ from datetime import datetime
 import os, sys, json
 from dotenv import load_dotenv
 import pandas as pd
+import pandera.pandas as pa
 import pytz
 
 # === Encontra o diretório src ===
@@ -12,12 +13,14 @@ SRC_DIR = THIS_FILE.parents[2]  # .../src
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
+from pipeline._contracts.acesso_basico_contract import AcessoBasicoContract as abc
 from modules.datafilehandler import DataFileReader
 from modules.database import DatabaseHandler
 from modules.util import converter_tempo
 from modules.logger import Logger
+from modules.transform import to_float_ptbr as tf
 
-class StgAcessoBasico:
+class AcessoBasico:
     def __init__(self, id_execucao: int, logger: logger):
         load_dotenv()
 
@@ -31,7 +34,7 @@ class StgAcessoBasico:
 
         self.timezone = pytz.timezone("America/Sao_Paulo")
         self.ts_now = pd.Timestamp.now(self.timezone)
-        self.id_execucao = 1
+        self.id_execucao = id_execucao
 
         # Dados do Banco de Dados
         self.database_name_tgt = os.getenv("DATABASE_NAME_TGT")
@@ -81,6 +84,7 @@ class StgAcessoBasico:
             return pd.DataFrame(columns=ordered_names or [])
 
         self.logger.info(f"Extract OK | linhas={len(df)} | colunas={list(df.columns)}")
+
         return df
 
     def enrich(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -111,7 +115,19 @@ class StgAcessoBasico:
             self.logger.warning(f"Coluna '{col}' não encontrada; pulando normalização.")
 
         self.logger.info(f"Transform OK | {before} -> {len(out)} linhas")
-        return out
+
+        float_cols = ["MEDIA_RELATIVA", "MEDIA_ABSOLUTA", "VALOR_RELATIVO", "VALOR_ABSOLUTO"]
+
+        for c in float_cols:
+            if c in out.columns:
+                out[c] = tf(out[c])
+        try:
+            df_out = abc.validate(out, lazy=True)
+            return df_out
+        
+        except pa.errors.SchemaErrors as e:
+            self.logger.error(f"Erro de validação dos dados: {e}")
+            raise
 
     def truncate(self) -> bool:
         return self.database.truncate_table(self.table_name_tgt, self.table_schema_tgt)
@@ -171,5 +187,5 @@ class StgAcessoBasico:
 if __name__ == "__main__":
     PATH_LOGS = os.getenv("PATH_LOGS")
     logger = Logger(path_logs=PATH_LOGS)
-    pipeline = StgAcessoBasico(id_execucao=0, logger=logger)
+    pipeline = AcessoBasico(id_execucao=0, logger=logger)
     pipeline.run()

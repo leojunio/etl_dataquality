@@ -53,7 +53,7 @@ class AcessoBasico:
         self.task_name = f"IMPORT_{self.table_name_tgt}"
 
         # Pastas/arquivos
-        self.remove_source_file = os.getenv("REMOVE_SOURCE_FILE", "false").lower() == "true"
+        #self.remove_source_file = os.getenv("REMOVE_SOURCE_FILE", "false").lower() == "true"
         self.files_dir = (SRC_DIR / "pipeline" / "landing" / "in")
         self.schema_path = (SRC_DIR / "pipeline" / "landing" / "schemas" / "csv" / "acesso_basico.json")
 
@@ -138,7 +138,6 @@ class AcessoBasico:
 
     def load_summary_log(self, df: pd.DataFrame) -> pd.DataFrame:
 
-  
         out = (
             df.groupby("NM_SOURCE_FILE").size().reset_index(name="QT_REGISTROS")
         )

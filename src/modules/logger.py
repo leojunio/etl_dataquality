@@ -12,7 +12,7 @@ PATH_LOGS = os.getenv("PATH_LOGS")
 LOG_FILE = os.getenv("LOG_FILE_NAME", 'app.log')
 RETENTION_TIME_LOGS = int(os.getenv("RETENTION_TIME_LOGS", 30))
 TB_LOG_FULL_NAME = os.getenv("TB_LOG_FULL_NAME", 'TB_LOG_EXECUCAO')
-SCHEMA = os.getenv("SCHEMA", 'STG')
+SCHEMA = os.getenv("DATABASE_SCHEMA_TGT", 'RAW')
 
 class Logger:
     def __init__(self, path_logs=None, execution_id=None):

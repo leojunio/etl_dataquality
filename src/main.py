@@ -1,12 +1,5 @@
 from pathlib import Path
 import sys, os, time
-
-# === Encontra o diretório src ===
-THIS_FILE = Path(__file__).resolve()
-SRC_DIR = THIS_FILE.parents  # .../src
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
-
 from datetime import datetime
 from dotenv import load_dotenv
 import numpy as np
@@ -44,9 +37,10 @@ LOG_FILE = os.getenv("LOG_FILE")
 PROJECT = os.getenv("PROJECT")
 SCHEMA = os.getenv("SCHEMA")
 TABLE_LOG_CONTROLE = os.getenv("DATABASE_TABLE_LOG_CONTROLE",'log.TB_LOGS_CARGA')
-DOWNLOAD_DIR = os.getenv("APP_DOWNLOAD_DIR")
+FILE_DIR = os.getenv("FILE_DIR")
 BUCKET= os.getenv("S3_BUCKET")
 PATH_LOGS_DBT = os.getenv("PATH_LOGS_DBT")
+REMOVE_SOURCE_FILE = os.getenv("REMOVE_SOURCE_FILE", "true").lower()
 
 if not PATH_LOGS_DBT:
     PATH_LOGS_DBT = (
@@ -63,9 +57,11 @@ def main(logger: Logger) -> None:
 
     print('Início da Execução')
 
-    # Remove arquivos da pasta de carga
-    file.remove_arquivos(f"{DOWNLOAD_DIR}")
-    
+    """ 
+    if REMOVE_SOURCE_FILE:
+        logger.info("Removendo arquivos da pasta de carga...")
+        file.remove_arquivos(f"{FILE_DIR}")
+     """
     # Obtém o ID da execução do DB_LOGS_CARGA
     execution_id = database.get_id_execution(PROJECT, TABLE_LOG_CONTROLE)
 

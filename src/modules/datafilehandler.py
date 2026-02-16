@@ -5,10 +5,8 @@ import csv, json
 from pathlib import Path
 from typing import Dict, Optional, Union, Any, List, Tuple
 import unicodedata  # para normalizar cabeçalhos (remover acentos etc.)
-
 import pandas as pd
 import yaml
-
 
 class DataFileReader:
     """

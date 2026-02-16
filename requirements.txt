@@ -12,3 +12,4 @@ python-dotenv==1.1.1
 sqlalchemy==2.0.43
 pandera
 pyyaml>=6.0
+pytest>=8.2
